@@ -1,0 +1,30 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.ruff_cache/
+
+# Environment files & secrets
+.env
+.env.local
+
+# Database / local data volumes
+pgdata/
+*.sqlite3
+*.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Distribution & builds
+build/
+dist/
+*.egg-info/
