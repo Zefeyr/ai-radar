@@ -5,14 +5,29 @@ line-length = 100
 select = [
     "E",   # pycodestyle errors
     "W",   # pycodestyle warnings
-    "F",   # Pyflakes (catches unused imports, undefined variables)
-    "I",   # isort (automatically sorts and groups imports)
-    "UP",  # pyupgrade (enforces modern Python 3.11 features)
-    "B",   # flake8-bugbear (catches common bugs and bad design patterns)
+    "F",   # Pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
 ]
 ignore = [
-    "E501", # Line-too-long (handled automatically by formatter)
+    "E501", # Line too long (handled by formatter)
 ]
 
 [lint.isort]
 known-first-party = ["app"]
+
+[lint.flake8-bugbear]
+# Allow FastAPI's Depends, Query, Path, Body, Header, etc. in argument defaults
+extend-immutable-calls = [
+    "fastapi.Depends",
+    "fastapi.params.Depends",
+    "fastapi.Query",
+    "fastapi.params.Query",
+    "fastapi.Path",
+    "fastapi.params.Path",
+    "fastapi.Body",
+    "fastapi.params.Body",
+    "fastapi.Header",
+    "fastapi.params.Header",
+]

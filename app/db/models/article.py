@@ -1,5 +1,5 @@
-import enum
 from datetime import datetime
+from enum import StrEnum
 
 from sqlalchemy import (
     JSON,
@@ -17,7 +17,7 @@ from sqlalchemy import (
 from app.core.database import Base
 
 
-class ArticleStatus(str, enum.Enum):
+class ArticleStatus(StrEnum):
     PENDING = "PENDING"  # Collected, but not yet analyzed by LLM
     PROCESSED = "PROCESSED"  # Successfully summarized and scored
     FAILED = "FAILED"  # Error encountered during scraping/LLM call
