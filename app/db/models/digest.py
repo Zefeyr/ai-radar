@@ -1,6 +1,8 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Table
+
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Table, Text
 from sqlalchemy.orm import relationship
+
 from app.core.database import Base
 
 # Association table: Many-to-Many relationship between Digests and Articles

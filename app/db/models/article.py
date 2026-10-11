@@ -1,15 +1,19 @@
 import enum
 from datetime import datetime
+
 from sqlalchemy import (
+    JSON,
     Column,
+    DateTime,
+    Float,
     Integer,
     String,
     Text,
-    Float,
-    DateTime,
-    Enum as SQLEnum,
-    JSON,
 )
+from sqlalchemy import (
+    Enum as SQLEnum,
+)
+
 from app.core.database import Base
 
 

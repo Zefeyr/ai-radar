@@ -1,6 +1,5 @@
 import httpx
 from bs4 import BeautifulSoup
-from typing import Optional
 
 
 class HTMLScraper:
@@ -14,7 +13,7 @@ class HTMLScraper:
         }
         self.timeout = timeout
 
-    def extract_article_text(self, url: str) -> Optional[str]:
+    def extract_article_text(self, url: str) -> str | None:
         """
         Fetches the HTML from a URL and extracts clean paragraphs,
         stripping scripts, styles, and navigational elements.

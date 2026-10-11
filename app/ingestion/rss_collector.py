@@ -1,7 +1,8 @@
-import feedparser
 from datetime import datetime
 from time import mktime
-from typing import List, Optional
+
+import feedparser
+
 from app.ingestion.base import BaseCollector
 from app.ingestion.html_scraper import HTMLScraper
 from app.schemas.article import ArticleIngest
@@ -14,10 +15,10 @@ class RSSCollector(BaseCollector):
         self.scrape_full_text = scrape_full_text
         self.scraper = HTMLScraper() if scrape_full_text else None
 
-    def fetch(self) -> List[ArticleIngest]:
+    def fetch(self) -> list[ArticleIngest]:
         """Parses the RSS feed and converts valid entries into ArticleIngest items."""
         feed = feedparser.parse(self.feed_url)
-        items: List[ArticleIngest] = []
+        items: list[ArticleIngest] = []
 
         for entry in feed.entries:
             url = getattr(entry, "link", None)
@@ -50,7 +51,7 @@ class RSSCollector(BaseCollector):
 
         return items
 
-    def _parse_published_date(self, entry) -> Optional[datetime]:
+    def _parse_published_date(self, entry) -> datetime | None:
         """Extracts standard published_parsed struct from feedparser and converts to datetime."""
         time_struct = getattr(entry, "published_parsed", None) or getattr(
             entry, "updated_parsed", None

@@ -1,6 +1,6 @@
 import json
 import re
-from typing import Optional
+
 from app.ai.client import OllamaClient
 from app.ai.prompts import SYSTEM_PROMPT, build_analysis_prompt
 from app.schemas.digest import LLMSummaryOutput
@@ -10,7 +10,7 @@ class ArticleSummarizer:
     def __init__(self):
         self.ollama = OllamaClient()
 
-    def analyze_article(self, title: str, source: str, content: str) -> Optional[LLMSummaryOutput]:
+    def analyze_article(self, title: str, source: str, content: str) -> LLMSummaryOutput | None:
         """
         Sends article text to Ollama and returns validated LLMSummaryOutput.
         Returns None if inference or JSON validation fails.
@@ -34,7 +34,7 @@ class ArticleSummarizer:
             print(f"[ArticleSummarizer] Inference failed for '{title}': {e}")
             return None
 
-    def _parse_and_validate(self, text: str) -> Optional[LLMSummaryOutput]:
+    def _parse_and_validate(self, text: str) -> LLMSummaryOutput | None:
         """Cleans potential Markdown artifacts and validates JSON with Pydantic."""
         try:
             # Clean common markdown code fences if the model emitted them

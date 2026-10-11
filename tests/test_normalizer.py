@@ -1,4 +1,4 @@
-from app.ingestion.normalizer import normalize_url, generate_url_hash
+from app.ingestion.normalizer import generate_url_hash, normalize_url
 
 
 def test_url_normalization_strips_tracking():

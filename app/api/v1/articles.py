@@ -1,11 +1,10 @@
-from typing import List, Optional
-from fastapi import APIRouter, Depends, Query, HTTPException, BackgroundTasks
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.db.models.article import Article, ArticleStatus
-from app.schemas.article import ArticleResponse
 from app.pipeline.runner import PipelineRunner
+from app.schemas.article import ArticleResponse
 
 router = APIRouter(prefix="/articles", tags=["Articles"])
 
@@ -18,13 +17,13 @@ def execute_full_pipeline(batch_size: int = 5) -> None:
     runner.run_digest_generation()
 
 
-@router.get("", response_model=List[ArticleResponse])
+@router.get("", response_model=list[ArticleResponse])
 def list_articles(
-    category: Optional[str] = Query(None, description="Filter by AI category"),
-    status: Optional[ArticleStatus] = Query(
+    category: str | None = Query(None, description="Filter by AI category"),
+    status: ArticleStatus | None = Query(
         None, description="Filter by status (PENDING, PROCESSED, FAILED)"
     ),
-    min_score: Optional[float] = Query(None, ge=1.0, le=10.0, description="Minimum impact score"),
+    min_score: float | None = Query(None, ge=1.0, le=10.0, description="Minimum impact score"),
     limit: int = Query(20, ge=1, le=100),
     offset: int = Query(0, ge=0),
     db: Session = Depends(get_db),

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.api.v1.articles import router as articles_router
 from app.api.v1.digests import router as digests_router
 

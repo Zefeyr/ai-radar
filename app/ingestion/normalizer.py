@@ -1,5 +1,5 @@
 import hashlib
-from urllib.parse import urlparse, urlunparse, parse_qsl, urlencode
+from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 # Common tracking parameters to strip
 TRACKING_PARAMS = {

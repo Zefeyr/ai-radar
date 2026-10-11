@@ -1,11 +1,12 @@
-from typing import List
+from datetime import datetime
+
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
+
 from app.core.database import get_db
 from app.db.repositories.digest_repo import DigestRepository
 from app.schemas.article import ArticleResponse
-from pydantic import BaseModel
-from datetime import datetime
 
 router = APIRouter(prefix="/digests", tags=["Digests"])
 
@@ -15,7 +16,7 @@ class DigestDetailResponse(BaseModel):
     title: str
     digest_date: datetime
     intro: str | None = None
-    articles: List[ArticleResponse]
+    articles: list[ArticleResponse]
 
     class Config:
         from_attributes = True

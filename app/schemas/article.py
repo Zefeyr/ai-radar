@@ -1,6 +1,7 @@
 from datetime import datetime
-from typing import Optional, List
-from pydantic import BaseModel, HttpUrl, Field
+
+from pydantic import BaseModel, Field
+
 from app.db.models.article import ArticleStatus
 
 
@@ -10,8 +11,8 @@ class ArticleIngest(BaseModel):
     url: str
     title: str = Field(..., min_length=1, max_length=512)
     source: str = Field(..., min_length=1, max_length=100)
-    published_at: Optional[datetime] = None
-    raw_content: Optional[str] = None
+    published_at: datetime | None = None
+    raw_content: str | None = None
 
 
 class ArticleResponse(BaseModel):
@@ -21,11 +22,11 @@ class ArticleResponse(BaseModel):
     url: str
     title: str
     source: str
-    published_at: Optional[datetime]
-    summary: Optional[str]
-    key_takeaways: Optional[List[str]]
-    category: Optional[str]
-    impact_score: Optional[float]
+    published_at: datetime | None
+    summary: str | None
+    key_takeaways: list[str] | None
+    category: str | None
+    impact_score: float | None
     status: ArticleStatus
     created_at: datetime
 

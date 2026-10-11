@@ -1,8 +1,8 @@
-from typing import Optional, List
 from sqlalchemy.orm import Session
+
 from app.db.models.article import Article, ArticleStatus
+from app.ingestion.normalizer import generate_url_hash, normalize_url
 from app.schemas.article import ArticleIngest
-from app.ingestion.normalizer import normalize_url, generate_url_hash
 
 
 class ArticleRepository:
@@ -13,7 +13,7 @@ class ArticleRepository:
         """Fast index lookup to check if an article URL has already been saved."""
         return self.db.query(Article.id).filter(Article.url_hash == url_hash).first() is not None
 
-    def create_if_not_exists(self, item: ArticleIngest) -> Optional[Article]:
+    def create_if_not_exists(self, item: ArticleIngest) -> Article | None:
         """
         Calculates the normalized hash, checks for duplicates,
         and saves the new article if unique.
@@ -39,7 +39,7 @@ class ArticleRepository:
         self.db.refresh(article)
         return article
 
-    def get_pending_articles(self, limit: int = 10) -> List[Article]:
+    def get_pending_articles(self, limit: int = 10) -> list[Article]:
         """Fetches articles awaiting AI summarization."""
         return (
             self.db.query(Article)
@@ -53,10 +53,10 @@ class ArticleRepository:
         self,
         article_id: int,
         summary: str,
-        key_takeaways: List[str],
+        key_takeaways: list[str],
         category: str,
         impact_score: float,
-    ) -> Optional[Article]:
+    ) -> Article | None:
         """Updates an article with Ollama's structured enrichment output."""
         article = self.db.query(Article).filter(Article.id == article_id).first()
         if not article:
@@ -71,7 +71,7 @@ class ArticleRepository:
         self.db.refresh(article)
         return article
 
-    def mark_as_failed(self, article_id: int, error_message: str) -> Optional[Article]:
+    def mark_as_failed(self, article_id: int, error_message: str) -> Article | None:
         """Marks an article as failed if LLM or scraping encounters an unrecoverable error."""
         article = self.db.query(Article).filter(Article.id == article_id).first()
         if not article:

@@ -1,5 +1,5 @@
-from typing import List, Optional
 from datetime import datetime
+
 from pydantic import BaseModel, Field
 
 
@@ -7,7 +7,7 @@ class LLMSummaryOutput(BaseModel):
     """Strict schema that Ollama must return for each analyzed article."""
 
     summary: str = Field(description="A concise 2 to 3 sentence summary of the article.")
-    key_takeaways: List[str] = Field(
+    key_takeaways: list[str] = Field(
         description="2 to 4 bullet points highlighting the core technical takeaways or facts."
     )
     category: str = Field(
@@ -26,8 +26,8 @@ class DigestResponse(BaseModel):
     id: int
     title: str
     digest_date: datetime
-    intro: Optional[str]
-    articles: List[dict]
+    intro: str | None
+    articles: list[dict]
 
     class Config:
         from_attributes = True

@@ -1,6 +1,3 @@
-import json
-from app.schemas.digest import LLMSummaryOutput
-
 SYSTEM_PROMPT = """You are AI Radar, an expert technical analyst and software intelligence system.
 Your job is to read raw tech news articles, announcements, or blog posts, and extract structured intelligence.
 

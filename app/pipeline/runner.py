@@ -1,10 +1,10 @@
 from datetime import datetime
-from typing import List
+
+from app.ai.summarizer import ArticleSummarizer
 from app.core.database import SessionLocal
 from app.db.repositories.article_repo import ArticleRepository
 from app.db.repositories.digest_repo import DigestRepository
 from app.ingestion.rss_collector import RSSCollector
-from app.ai.summarizer import ArticleSummarizer
 
 # List of initial target feeds
 FEEDS = [

@@ -1,5 +1,7 @@
 from logging.config import fileConfig
+
 from sqlalchemy import engine_from_config, pool
+
 from alembic import context
 
 # 1. Import our app settings and metadata
