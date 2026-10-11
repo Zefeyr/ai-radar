@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ai_radar_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ai_radar_user
+      POSTGRES_PASSWORD: ai_radar_password
+      POSTGRES_DB: ai_radar_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ai_radar_user -d ai_radar_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ai_radar_ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollamadata:/root/.ollama
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai_radar_api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      # In Docker network, hostname is the service name (postgres, ollama)
+      DATABASE_URL: postgresql+psycopg://ai_radar_user:ai_radar_password@postgres:5432/ai_radar_db
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: llama3.2
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+
+volumes:
+  pgdata:
+  ollamadata:
